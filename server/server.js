@@ -14,12 +14,12 @@ import adminRoutes from './routes/adminRoutes.js';
 
 const PORT = process.env.PORT || 5000;
 
-// Websites allowed to call this API. Can be a comma separated list.
-// Render gives just the host name ("my-app.onrender.com"), so add https:// when missing.
+// Websites allowed to call this API (CLIENT_URL can hold one or more URLs).
+// We pick out every http(s) URL, so extra spaces/text or a trailing "/" don't break it.
 const CLIENT_URLS = (process.env.CLIENT_URL || 'http://localhost:5173')
-  .split(',')
-  .map((url) => url.trim())
-  .map((url) => (url.startsWith('http') ? url : `https://${url}`));
+  .match(/https?:\/\/[^\s,'"]+/g)
+  ?.map((url) => url.replace(/\/+$/, '')) || [];
+console.log('Allowed website(s):', CLIENT_URLS.join(', ') || 'NONE - set CLIENT_URL!');
 
 const app = express();
 const server = http.createServer(app); // Socket.IO needs the raw http server
