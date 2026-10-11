@@ -89,7 +89,7 @@ The repo includes a `render.yaml` blueprint that creates both the backend and th
 1. In MongoDB Atlas → **Network Access**, allow `0.0.0.0/0` (Render's IP address changes).
 2. Push this project to GitHub.
 3. On [render.com](https://render.com): **New + → Blueprint** → choose the repo.
-4. Paste your Atlas connection string when it asks for `MONGO_URI` → **Apply**.
+4. Fill in `MONGO_URI` (Atlas connection string), `CLIENT_URL` (the web URL) and `VITE_API_URL` (the api URL) → **Apply**.
 5. Wait for both services to go live, then open the `zerohunger-web` URL.
 
 > Free Render services sleep after 15 minutes without visitors; the first request after that takes ~50 seconds to wake up.

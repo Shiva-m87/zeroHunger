@@ -1,5 +1,5 @@
 # Render Blueprint - deploys the whole project in one go.
-# On render.com: New + -> Blueprint -> pick this GitHub repo -> paste MONGO_URI -> Apply.
+# On render.com: New + -> Blueprint -> pick this GitHub repo -> fill MONGO_URI, CLIENT_URL, VITE_API_URL -> Apply.
 services:
   # ---------- Backend (Express + Socket.IO) ----------
   - type: web
@@ -15,11 +15,8 @@ services:
         sync: false # Render asks you for this value (your Atlas connection string)
       - key: JWT_SECRET
         generateValue: true # Render creates a random secret
-      - key: CLIENT_URL # the frontend's address, filled in automatically
-        fromService:
-          type: web
-          name: zerohunger-web
-          property: host
+      - key: CLIENT_URL # the frontend's public URL, e.g. https://zerohunger-web.onrender.com
+        sync: false
 
   # ---------- Frontend (React static site) ----------
   - type: web
@@ -34,8 +31,5 @@ services:
         source: /*
         destination: /index.html
     envVars:
-      - key: VITE_API_URL # the backend's address, filled in automatically
-        fromService:
-          type: web
-          name: zerohunger-api
-          property: host
+      - key: VITE_API_URL # the backend's public URL, e.g. https://zerohunger-api.onrender.com
+        sync: false
